@@ -9,8 +9,9 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
+//@CrossOrigin(origins = "http://localhost:3000")
 @RestController
-@RequestMapping("/journeys")
+@RequestMapping("/api/v1/journeys")
 class JourneyController(
 
     val journeyService: JourneyService
