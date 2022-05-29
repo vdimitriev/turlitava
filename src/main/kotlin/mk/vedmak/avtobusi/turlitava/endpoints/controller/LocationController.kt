@@ -2,6 +2,7 @@ package mk.vedmak.avtobusi.turlitava.endpoints.controller
 
 import mk.vedmak.avtobusi.turlitava.core.LocationService
 import mk.vedmak.avtobusi.turlitava.endpoints.model.LocationDto
+import mk.vedmak.avtobusi.turlitava.model.Location
 import mu.KotlinLogging
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
@@ -19,7 +20,7 @@ class LocationController(
     private val logger = KotlinLogging.logger{}
 
     @GetMapping(value = ["/search"], produces = ["application/json"])
-    fun getBySearchTerm(@RequestParam("term") searchTerm: String): List<LocationDto> {
+    fun getBySearchTerm(@RequestParam("term") searchTerm: String): List<Location> {
         logger.info("get by search term $searchTerm")
         return locationService.searchByTerm(searchTerm)
     }
@@ -28,7 +29,7 @@ class LocationController(
     fun getBySearchTermAndLocale(
         @RequestParam("term") searchTerm: String,
         @RequestParam("locale") locale: String,
-        ): List<LocationDto> {
+        ): List<Location> {
         logger.info("get by search term $searchTerm and locale $locale")
         return locationService.searchByTermAndLocale(searchTerm, locale)
     }

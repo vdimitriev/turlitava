@@ -22,4 +22,9 @@ data class Location(
 
     val description: String? = null,
 
-    )
+    ) {
+
+    override fun toString(): String {
+        return "$name - $latinName - $cyrillicName - $description"
+    }
+}

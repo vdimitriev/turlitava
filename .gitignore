@@ -34,3 +34,6 @@ build/
 
 ### NEO4J ###
 neo4j/
+
+### NODE_JS ###
+node_modules

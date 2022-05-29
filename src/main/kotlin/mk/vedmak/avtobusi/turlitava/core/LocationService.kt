@@ -1,6 +1,7 @@
 package mk.vedmak.avtobusi.turlitava.core
 
 import mk.vedmak.avtobusi.turlitava.endpoints.model.LocationDto
+import mk.vedmak.avtobusi.turlitava.model.Location
 import mk.vedmak.avtobusi.turlitava.repository.LocationRepository
 import mk.vedmak.avtobusi.turlitava.repository.StationRepository
 import mk.vedmak.avtobusi.turlitava.repository.StopRepository
@@ -18,13 +19,13 @@ class LocationService(
 
     private val logger = KotlinLogging.logger{}
 
-    fun searchByTerm(searchTerm: String):List<LocationDto> {
+    fun searchByTerm(searchTerm: String):List<Location> {
         logger.info("search location by term $searchTerm")
-        return listOf()
+        return locationRepository.findBySearchTerm(searchTerm.replaceFirstChar { it.uppercase() })
     }
 
-    fun searchByTermAndLocale(searchTerm: String, locale: String):List<LocationDto> {
+    fun searchByTermAndLocale(searchTerm: String, locale: String):List<Location> {
         logger.info("search location by term $searchTerm and locale $locale")
-        return listOf()
+        return locationRepository.findBySearchTerm(searchTerm)
     }
 }
