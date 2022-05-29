@@ -29,6 +29,6 @@ data class Line(
     ) {
 
     override fun toString(): String {
-        return "$name"
+        return "$name + carrier: $carrier"
     }
 }

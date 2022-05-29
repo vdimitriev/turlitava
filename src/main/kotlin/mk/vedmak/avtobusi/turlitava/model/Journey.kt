@@ -3,6 +3,7 @@ package mk.vedmak.avtobusi.turlitava.model
 import org.springframework.data.neo4j.core.schema.Id
 import org.springframework.data.neo4j.core.schema.Node
 import org.springframework.data.neo4j.core.schema.Relationship
+import org.springframework.data.neo4j.core.schema.Relationship.Direction.INCOMING
 import org.springframework.data.neo4j.core.schema.Relationship.Direction.OUTGOING
 
 @Node
@@ -23,16 +24,16 @@ data class Journey(
     @Relationship("ARRIVES", direction = OUTGOING)
     val arrival: Location? = null,
 
-    @Relationship("PERFORMS", direction = OUTGOING)
+    @Relationship("PERFORMS", direction = INCOMING)
     var line: Line? = null,
 
     @Relationship("CONTAINS", direction = OUTGOING)
-    var trips: MutableSet<Trip> = HashSet(),
+    var trips: List<Trip>? = null,
 
     val description: String? = null,
 
     @Relationship("MAINTAINS", direction = OUTGOING)
-    var schedules: List<Schedule> = ArrayList(),
+    var schedules: List<Schedule>? = null,
 
     var distance: Int = 0,
 
@@ -47,6 +48,6 @@ data class Journey(
     override fun hashCode(): Int = carrierName.hashCode() + lineNumber.hashCode() + departure.hashCode() + arrival.hashCode()
 
     override fun toString(): String {
-        return "$name - $departure - $arrival - $distance"
+        return "$name"
     }
 }

@@ -17,4 +17,8 @@ data class Period(
 
     val toMonth: Int,
 
-)
+) {
+    override fun toString(): String {
+        return "$name"
+    }
+}

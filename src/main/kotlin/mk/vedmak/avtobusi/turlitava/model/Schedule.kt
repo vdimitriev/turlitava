@@ -2,6 +2,7 @@ package mk.vedmak.avtobusi.turlitava.model
 
 import org.springframework.data.neo4j.core.schema.Id
 import org.springframework.data.neo4j.core.schema.Node
+import org.springframework.data.neo4j.core.schema.Relationship
 
 @Node
 data class Schedule(
@@ -11,7 +12,8 @@ data class Schedule(
 
     var workDays: List<Int> = ArrayList(),
 
-    var workPeriods: List<Period> = ArrayList(),
+    @Relationship("VALID", direction = Relationship.Direction.OUTGOING)
+    var workPeriods: List<Period>? = null,
 
     var workMonths: List<Int> = ArrayList(),
 
@@ -25,4 +27,8 @@ data class Schedule(
 
     var tripNumbers: String = "",
 
-)
+) {
+    override fun toString(): String {
+        return "$name"
+    }
+}

@@ -8,17 +8,39 @@ import org.springframework.stereotype.Repository
 @Repository
 interface JourneyRepository: Neo4jRepository<Journey, String> {
 
-//    //@Query("MATCH (a:Location)<-[ja:ARRIVES_AT]-(j:Journey)-[jd:DEPARTS_AT]->(d:Location) MATCH (j)-[jt:CONTAINS]->(t:Trip)->[ts:STOPS_AT]->(s:Stop) where d.name = 'BT' and a.name = 'OH' RETURN j,jd,d,ja,a,jt,t,ts,s")
-//    @Query("MATCH (j:Journey)-[c:CONTAINS]->(t:Trip)-[sa:STOPS_AT]->(s:Stop) MATCH (j:Journey)-[p:PART_OF]->(l:Line)-[o:PERFORMED_BY]->(car:Carrier) where j.departure = 'BT' and j.arrival = 'OH' RETURN j,collect(c),collect(t),collect(sa),collect(s),collect(p),collect(l),collect(o),collect(car)")
-//    //@Query("MATCH (j:Journey)-[c:CONTAINS]->(t:Trip)-[sa:STOPS_AT]->(s:Stop) MATCH (j:Journey)<-[p:PERFORMS]-(l:Line)<-[o:OPERATES]-(car:Carrier) where j.departure = 'BT' and j.arrival = 'OH' RETURN j,collect(c),collect(t),collect(sa),collect(s),collect(p),collect(l),collect(o),collect(car)")
-//    fun findJourneys(): Collection<Journey>
-//
-//    fun findByDeparture(departure: String): Collection<Journey>
-//
-//    fun findByDepartureAndArrival(departure: String, arrival: String): Collection<Journey>
-
-    @Query( "MATCH (car:Carrier)-[o:OPERATES]->(l:Line)-[p:PERFORMS]->(j:Journey)-[c:CONTAINS]->(t:Trip)-[sa:STOPS]->(s:Stop) " +
-            "WHERE j.departure.cyrillicName = :departure AND j.arrival.cyrillicName = :arrival " +
-            "RETURN j,collect(c),collect(t),collect(sa),collect(s),collect(p),collect(l),collect(o),collect(car)")
+    @Query(
+        "MATCH (c:Carrier)-[lco:OPERATES]->" +
+                "(l:Line)-[jlp:PERFORMS]->" +
+                "(j:Journey)-[jtc:CONTAINS]->" +
+                "(t:Trip)-[tss:STOPS]->" +
+                "(stp:Stop)-[at:AT]->" +
+                "(stn:Station)-[sit:SITUATED]->" +
+                "(stnl:Location) " +
+                "MATCH (per:Period)<-[v:VALID]-(sch:Schedule)<-[m:MAINTAINS]-(j) " +
+                "MATCH (d:Location)<-[jd:DEPARTS]-(j) " +
+                "MATCH (a:Location)<-[ja:ARRIVES]-(j) " +
+                "WHERE d.name = \$departure AND a.name = \$arrival " +
+                "RETURN j," +
+                "collect(jlp)," +
+                "collect(l)," +
+                "collect(lco)," +
+                "collect(c)," +
+                "collect(d)," +
+                "collect(jd)," +
+                "collect(a)," +
+                "collect(ja)," +
+                "collect(jtc)," +
+                "collect(t)," +
+                "collect(tss)," +
+                "collect(stp)," +
+                "collect(at)," +
+                "collect(stn)," +
+                "collect(sit)," +
+                "collect(stnl)," +
+                "collect(m)," +
+                "collect(sch)," +
+                "collect(v)," +
+                "collect(per)"
+    )
     fun findByDepartureAndArrival(departure: String, arrival: String): List<Journey>
 }

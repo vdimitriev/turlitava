@@ -19,14 +19,14 @@ data class Trip(
     val tripNumber: Int = 0,
 
     @Relationship("STOPS", direction = OUTGOING)
-    var stops: MutableList<Stop> = ArrayList(),
+    var stops: List<Stop>? = null,
 
     @Relationship("MAINTAINS", direction = OUTGOING)
-    val schedules: List<Schedule> = ArrayList(),
+    val schedules: List<Schedule>? = null,
 
     val description: String? = null,
 
-    var travelTime: String = "",
+    var travelTime: String? = null,
 
     var scheduledDepartureTime: LocalTime? = null,
 
@@ -35,7 +35,7 @@ data class Trip(
     ) {
 
     override fun toString(): String {
-        return "$name - $travelTime - $scheduledDepartureTime - $scheduledArrivalTime"
+        return "$name - stops: $stops"
     }
 
 }

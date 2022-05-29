@@ -25,6 +25,6 @@ data class Station(
 ) {
 
     override fun toString(): String {
-        return "$name"
+        return "$name - station location $location"
     }
 }
