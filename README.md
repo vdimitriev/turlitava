@@ -1,9 +1,9 @@
 ## to access swagger api go to 
 
-    http://localhost:8080/api-docs.html
-    http://localhost:8080/swagger-ui/index.html
+    http://localhost:8080/api/api-docs.html
+    http://localhost:8080/api/swagger-ui/index.html
 
-## node js api
+## To perform api call you'll need to call
 
     http://localhost:8080/api
 
