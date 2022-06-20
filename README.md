@@ -13,3 +13,8 @@
     $ ./mvnw spring-boot:run
     $ ./mvnw clean install && ./mvnw spring-boot:run
 
+## build docker image and deploy to docker hub
+
+    $  sudo ./mvnw spring-boot:build-image
+    $  sudo docker tag turlitava:1.0.0 slaviq/turlitava:1.0.0
+    $  sudo docker push slaviq/turlitava:1.0.0
