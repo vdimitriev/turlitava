@@ -1,20 +1,20 @@
 package mk.vedmak.avtobusi.turlitava.endpoints.controller
 
 import mk.vedmak.avtobusi.turlitava.core.JourneyService
+import mk.vedmak.avtobusi.turlitava.endpoints.mapper.Mapper
 import mk.vedmak.avtobusi.turlitava.endpoints.model.JourneyDto
-import mk.vedmak.avtobusi.turlitava.model.Journey
 import mu.KotlinLogging
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
-//@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/api/v1/journeys")
 class JourneyController(
 
-    val journeyService: JourneyService
+    val journeyService: JourneyService,
+    val mapper: Mapper
 
     ) {
 
@@ -24,10 +24,11 @@ class JourneyController(
     fun getByDepartureAndArrival(
         @PathVariable("departure") departure: String,
         @PathVariable("arrival") arrival: String,
-        ):List<Journey> {
+    ): List<JourneyDto> {
 
         logger.info("get by departure $departure and arrival $arrival")
-        return journeyService.searchJourneysByDepartureAndArrival(departure, arrival)
+        val journeys = journeyService.searchJourneysByDepartureAndArrival(departure, arrival)
+        return journeys.map { mapper.toJourneyDto(it) }
     }
 
     @GetMapping(value = ["/search/{departure}/{arrival}/{date}"], produces = ["application/json"])
@@ -35,10 +36,12 @@ class JourneyController(
         @PathVariable("departure") departure: String,
         @PathVariable("arrival") arrival: String,
         @PathVariable("date") date: String
-        ):List<Journey> {
+        ):List<JourneyDto> {
 
         logger.info("get by departure $departure, arrival $arrival and date $date")
-        return journeyService.searchJourneysByDepartureArrivalAndDate(departure, arrival, date)
+        val journeys = journeyService.searchJourneysByDepartureArrivalAndDate(departure, arrival, date)
+        return journeys.map { mapper.toJourneyDto(it) }
+
     }
 
     @GetMapping(value = ["/search/{departure}/{arrival}/{date}/{locale}"], produces = ["application/json"])
@@ -47,9 +50,10 @@ class JourneyController(
         @PathVariable("arrival") arrival: String,
         @PathVariable("date") date: String,
         @PathVariable("locale") locale: String
-        ):List<Journey> {
+        ):List<JourneyDto> {
 
         logger.info("get by departure $departure, arrival $arrival, date $date and locale $locale")
-        return journeyService.searchJourneysByDepartureArrivalDateAndLocale(departure, arrival, date, locale)
+        val journeys = journeyService.searchJourneysByDepartureArrivalDateAndLocale(departure, arrival, date, locale)
+        return journeys.map { mapper.toJourneyDto(it) }
     }
 }
